@@ -29,6 +29,7 @@ const WatchlistPage = () => {
       setLoading(true);
       const response = await fetch(
         "https://movai-2gkg.onrender.com/watchlist-data",
+        // "http://localhost:3001/watchlist-data",
         {
           method: "GET",
           headers: {

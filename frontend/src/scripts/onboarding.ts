@@ -5,6 +5,7 @@ const checkOnboarding = async (
 ): Promise<OnboardingCheckResult> => {
   try {
     const response = await fetch("https://movai-2gkg.onrender.com/onboarding", {
+    // const response = await fetch("http://localhost:3001/onboarding", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,

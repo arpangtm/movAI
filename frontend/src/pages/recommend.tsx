@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Send, Bot, User, Sparkles, Settings, BarChart } from "lucide-react";
+import { Send, Bot, User, Sparkles, BarChart } from "lucide-react";
 import MessageComponent from "../components/messageComponent";
 import { useAuth } from "@clerk/clerk-react";
 
@@ -16,7 +16,6 @@ const Recommend = () => {
   const [inputMessage, setInputMessage] = useState("");
   const [isTyping, setIsTyping] = useState(false);
 
-  const [showSettings, setShowSettings] = useState(false);
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
   const [token, setToken] = useState("");
@@ -53,6 +52,7 @@ const Recommend = () => {
   const callLLM = async (userMessage: string) => {
     try {
       const res = await fetch("https://movai-2gkg.onrender.com/api/recommend", {
+      // const res = await fetch("http://localhost:3001/api/recommend", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -190,42 +190,12 @@ const Recommend = () => {
                 </p>
               </div>
             </div>
-            <button
-              onClick={() => setShowSettings(!showSettings)}
-              className="p-2 text-gray-400 hover:text-white transition-colors"
-            >
-              <Settings className="w-5 h-5" />
-            </button>
+            
           </div>
         </div>
 
         {/* Settings Panel */}
-        {showSettings && (
-          <div className="bg-gray-900/95 backdrop-blur-sm border-b border-gray-800 p-4">
-            <div className="max-w-4xl mx-auto">
-              <div className="space-y-3">
-                <label className="block text-sm font-medium text-gray-300">
-                  Gemini API Key (Optional - for enhanced recommendations)
-                </label>
-                {/* <div className="flex space-x-2">
-                  <input
-                    type="password"
-                    placeholder="Enter your Gemini API key..."
-                    value={apiKey}
-                    onChange={(e) => setApiKey(e.target.value)}
-                    className="flex-1 p-3 bg-gray-800/50 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:border-red-500 focus:outline-none"
-                  />
-                  <button
-                    onClick={() => setShowSettings(false)}
-                    className="px-4 py-3 bg-red-500 hover:bg-red-600 text-white rounded-lg transition-colors"
-                  >
-                    Save
-                  </button>
-                </div> */}
-              </div>
-            </div>
-          </div>
-        )}
+        
 
         {/* Chat Messages */}
         <div className="flex-1 overflow-y-auto p-4">
@@ -336,12 +306,6 @@ const Recommend = () => {
             </div>
             <div className="mt-2 flex items-center justify-between text-xs text-gray-500">
               <span>Press Enter to send, Shift+Enter for new line</span>
-              <div className="flex items-center space-x-4">
-                <span className="flex items-center space-x-1">
-                  <Sparkles className="w-3 h-3" />
-                  <span>Powered by Gemini AI</span>
-                </span>
-              </div>
             </div>
           </div>
         </div>

@@ -1,6 +1,7 @@
 const getWatchlist = async (token: string | null) => {
   try {
     const response = await fetch("https://movai-2gkg.onrender.com/watchlist", {
+      // const response = await fetch("http://localhost:3001/watchlist", {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -29,6 +30,7 @@ const updateWatchlist = async (
   // Sync with backend
   try {
     const response = await fetch("https://movai-2gkg.onrender.com/watchlist", {
+      // const response = await fetch("http://localhost:3001/watchlist", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`, // Make sure token is available

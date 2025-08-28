@@ -6,9 +6,12 @@ const {
   DynamoDBClient,
   PutItemCommand,
   ScanCommand,
-  QueryCommand,
 } = require("@aws-sdk/client-dynamodb");
-const { GetCommand, UpdateCommand } = require("@aws-sdk/lib-dynamodb");
+const {
+  GetCommand,
+  UpdateCommand,
+  QueryCommand,
+} = require("@aws-sdk/lib-dynamodb");
 const { marshall } = require("@aws-sdk/util-dynamodb");
 const { requireAuth, getAuth, clerkClient } = require("@clerk/express");
 const { clerkMiddleware } = require("@clerk/express");
@@ -57,12 +60,10 @@ app.post("/user_register_webhook", async (req, res) => {
       const { id, email_addresses, image_url, username, first_name } = evt.data;
       const { v4: uuidv4 } = require("uuid");
 
-      const userId = uuidv4();
       const params = {
         TableName: "UserData",
         Item: marshall({
-          ClerkID: id,
-          userId: userId,
+          userId: id,
           Email: email_addresses[0].email_address,
           Username: username,
           Name: first_name,
@@ -81,8 +82,7 @@ app.post("/user_register_webhook", async (req, res) => {
       const params = {
         TableName: "UserData",
         Item: marshall({
-          ClerkID: id,
-          userId: userId,
+          userId: id,
           Email: email_addresses[0].email_address,
           Username: username,
           Name: first_name,
@@ -127,15 +127,16 @@ app.post("/user-interests", requireAuth(), async (req, res) => {
   console.log(body);
   const params = {
     TableName: "UserData",
-    Item: marshall({
-      ClerkID: userId,
-      Interests: {
-        ...body,
-      },
-    }),
+    Key: { userId }, // Must match your table's partition key
+    UpdateExpression: "SET Interests = :interests",
+    ExpressionAttributeValues: {
+      ":interests": body,
+    },
+    ReturnValues: "ALL_NEW",
   };
+
   try {
-    await dynamoDB.send(new PutItemCommand(params));
+    await dynamoDB.send(new UpdateCommand(params));
     res.status(200).json({ success: true, message: "Interests updated" });
   } catch (err) {
     console.error("DynamoDB connection failed:", err);
@@ -404,15 +405,18 @@ const checkOnboarding = async (req, res, next) => {
   console.log(userId);
   const params = {
     TableName: "UserData",
-    Key: { ClerkID: userId },
-    ProjectionExpression: "onboarded",
+    KeyConditionExpression: "userId = :userId",
+    ExpressionAttributeValues: {
+      ":userId": userId,
+    },
   };
 
   try {
-    const command = new GetCommand(params);
-    const data = await dynamoDB.send(command);
+    const command = new QueryCommand(params);
 
-    const onboarded = data.Item?.onboarded ?? false;
+    const data = await dynamoDB.send(command);
+    console.log("data", data);
+    const onboarded = data.Items?.[0]?.onboarded;
 
     if (onboarded === true) {
       return res.status(403).json({ error: "User already onboarded" });

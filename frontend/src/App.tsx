@@ -106,6 +106,7 @@ function App() {
 
   const searchMovies = async () => {
     const res = await fetch("https://movai-2gkg.onrender.com/search-movies", {
+    // const res = await fetch("http://localhost:3001/search-movies", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -162,6 +163,7 @@ function App() {
     // Sync with backend
     try {
       const response = await fetch(
+        // "http://localhost:3001/watchlist",
         "https://movai-2gkg.onrender.com/watchlist",
         {
           method: "POST",
@@ -187,6 +189,7 @@ function App() {
       return;
     }
     const res = await fetch("https://movai-2gkg.onrender.com/featured", {
+    // const res = await fetch("http://localhost:3001/featured", {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`, // Send token in Authorization header
@@ -206,6 +209,7 @@ function App() {
       return;
     }
     const res = await fetch("https://movai-2gkg.onrender.com/trending", {
+    // const res = await fetch("http://localhost:3001/trending", {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`, // Send token in Authorization header
@@ -217,7 +221,6 @@ function App() {
     console.log(data);
   };
 
-  
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
       <Navbar />
