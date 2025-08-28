@@ -404,7 +404,7 @@ const checkOnboarding = async (req, res, next) => {
   console.log(userId);
   const params = {
     TableName: "UserData",
-    Key: { userId },
+    Key: { ClerkID: userId },
     ProjectionExpression: "onboarded",
   };
 
