@@ -44,7 +44,6 @@ const dynamoDB = new DynamoDBClient({
 });
 
 app.post("/user_register_webhook", async (req, res) => {
-  console.log("Hit /user_register_webhook");
   const wh = new Webhook(process.env.CLERK_WEBHOOK_SECRET);
 
   const headers = req.headers;
@@ -124,7 +123,7 @@ app.post("/user-interests", requireAuth(), async (req, res) => {
   const { userId } = getAuth(req);
   //Put into dynamodb
   const body = req.body;
-  console.log(body);
+
   const params = {
     TableName: "UserData",
     Key: { userId }, // Must match your table's partition key
@@ -149,7 +148,6 @@ app.post("/user-interests", requireAuth(), async (req, res) => {
 });
 
 app.get("/featured", requireAuth(), async (req, res) => {
-  console.log("Hit /featured");
   const { userId } = getAuth(req);
   const params = {
     TableName: "UserData",
@@ -162,13 +160,12 @@ app.get("/featured", requireAuth(), async (req, res) => {
     const data = await dynamoDB.send(command);
 
     if (!data.Item || !data.Item.Recommendations) {
-      console.log("No recommendations found.");
       return [];
     }
 
     const recommendations = data.Item.Recommendations;
     const movies = await getMovieDetailsByTitleAndYear(recommendations);
-    console.log("New movies");
+
     res.status(200).json(movies);
   } catch (err) {
     console.error("Error fetching recommendations:", err);
@@ -177,14 +174,13 @@ app.get("/featured", requireAuth(), async (req, res) => {
 });
 
 app.get("/trending", requireAuth(), async (req, res) => {
-  console.log("Hit /trending");
   const movies = await getTrendingMovies();
   res.status(200).json(movies);
 });
 
 app.post("/search-movies", async (req, res) => {
   const { searchTerm } = req.body;
-  console.log("searchTerm", searchTerm);
+
   const movies = await searchMoviesByTitle(searchTerm);
   res.status(200).json(movies);
 });
@@ -275,7 +271,7 @@ app.get("/watchlist", requireAuth(), async (req, res) => {
 
 app.get("/watchlist-data", requireAuth(), async (req, res) => {
   const { userId } = getAuth(req);
-  console.log("userId", userId);
+
   // Step 1: Get watchlist from DynamoDB
   const getParams = {
     TableName: "UserData",
@@ -324,7 +320,6 @@ app.get("/watchlist-data", requireAuth(), async (req, res) => {
       })
     );
 
-    console.log("movieDetails", movieDetails);
     res.status(200).json({ watchlist: movieDetails });
   } catch (err) {
     console.error("Error fetching watchlist:", err);
@@ -350,7 +345,6 @@ app.get("/movie/:id/full", async (req, res) => {
     if (!movieRes.ok) throw new Error("Failed to fetch movie details");
     const movieData = await movieRes.json();
     const trailer = await getTrailer(movieId);
-    console.log("trailer", trailer);
 
     // Fetch movie credits
     const creditsRes = await fetch(
@@ -402,7 +396,7 @@ app.get("/movie/:id/full", async (req, res) => {
 
 const checkOnboarding = async (req, res, next) => {
   const { userId } = getAuth(req);
-  console.log(userId);
+
   const params = {
     TableName: "UserData",
     KeyConditionExpression: "userId = :userId",
@@ -415,7 +409,7 @@ const checkOnboarding = async (req, res, next) => {
     const command = new QueryCommand(params);
 
     const data = await dynamoDB.send(command);
-    console.log("data", data);
+
     const onboarded = data.Items?.[0]?.onboarded;
 
     if (onboarded === true) {
@@ -436,7 +430,7 @@ app.post("/onboarding", requireAuth(), checkOnboarding, async (req, res) => {
 
 app.post("/api/recommend", requireAuth(), async (req, res) => {
   const { userId } = getAuth(req);
-  console.log("userid", userId);
+
   if (!userId) {
     return res.status(401).json({ error: "Unauthorized" });
   }
@@ -448,7 +442,7 @@ app.post("/api/recommend", requireAuth(), async (req, res) => {
 
   try {
     const recommendations = await getOpenRouterResponse(message);
-    console.log("recommendations", recommendations);
+
     res.json(recommendations);
   } catch (err) {
     console.error("Error generating recommendations:", err);
@@ -457,6 +451,4 @@ app.post("/api/recommend", requireAuth(), async (req, res) => {
 });
 
 const PORT = process.env.PORT || 3001;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+app.listen(PORT, () => {});

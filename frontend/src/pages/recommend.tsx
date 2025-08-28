@@ -52,7 +52,7 @@ const Recommend = () => {
   const callLLM = async (userMessage: string) => {
     try {
       const res = await fetch("https://movai-2gkg.onrender.com/api/recommend", {
-      // const res = await fetch("http://localhost:3001/api/recommend", {
+        // const res = await fetch("http://localhost:3001/api/recommend", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -85,7 +85,7 @@ const Recommend = () => {
     // Simulate typing delay
     setTimeout(async () => {
       const botResponse = await callLLM(inputMessage);
-      console.log(botResponse);
+
       const botMessage = {
         id: Date.now() + 1,
         type: "bot",
@@ -190,12 +190,10 @@ const Recommend = () => {
                 </p>
               </div>
             </div>
-            
           </div>
         </div>
 
         {/* Settings Panel */}
-        
 
         {/* Chat Messages */}
         <div className="flex-1 overflow-y-auto p-4">

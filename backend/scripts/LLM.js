@@ -24,10 +24,10 @@ export async function getOpenRouterResponse(userMessage) {
   if (!completion.choices[0].message.content) {
     return { recommendations: [] };
   }
-  console.log("completion", completion.choices[0].message);
+
   try {
     const recommendations = JSON.parse(completion.choices[0].message.content);
-    console.log(recommendations);
+
     return recommendations;
   } catch (error) {
     return { recommendations: [] };

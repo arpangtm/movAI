@@ -41,7 +41,6 @@ const updateWatchlist = async (
 
     if (!response.ok) throw new Error("Failed to update watchlist");
     const data = await response.json();
-    console.log("Wishlist synced:", data);
   } catch (err) {
     console.error("Error syncing watchlist:", err);
   }

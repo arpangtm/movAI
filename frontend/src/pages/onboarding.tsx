@@ -41,7 +41,7 @@ const MovieOnboarding = () => {
 
   useEffect(() => {
     getToken().then((token) => {
-      console.log(token);
+
       setToken(token);
     });
   }, []);
@@ -183,8 +183,8 @@ const MovieOnboarding = () => {
   };
 
   const handleSubmit = async () => {
-    console.log("Form submitted:", formData);
-    console.log("token", token);
+
+
     fetch("https://movai-2gkg.onrender.com/user-interests", {
     // fetch("http://localhost:3001/user-interests", {
       method: "POST",
@@ -195,10 +195,10 @@ const MovieOnboarding = () => {
       body: JSON.stringify(formData),
     })
       .then((res) => {
-        console.log(res);
+
       })
       .catch((err) => {
-        console.log(err);
+
       });
     setOnboardingLoading(true);
     pollOnboardingStatus(token as string);

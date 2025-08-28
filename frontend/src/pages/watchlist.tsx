@@ -15,7 +15,6 @@ const WatchlistPage = () => {
 
   useEffect(() => {
     getToken().then((token) => {
-      console.log(token);
       setToken(token);
     });
   }, []);
@@ -44,7 +43,6 @@ const WatchlistPage = () => {
       }
 
       const data = await response.json();
-      console.log("Watchlist response:", data);
 
       setWatchlist(data.watchlist || []);
     } catch (err) {

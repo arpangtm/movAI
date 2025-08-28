@@ -61,7 +61,6 @@ function App() {
 
   useEffect(() => {
     getToken().then((token) => {
-      console.log(token);
       setToken(token);
     });
   }, []);
@@ -75,7 +74,7 @@ function App() {
     const timer = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % featuredMovies.length);
     }, 5000);
-    console.log(featuredMovies);
+
     return () => clearInterval(timer);
   }, [featuredMovies.length]);
 
@@ -83,11 +82,7 @@ function App() {
     searchMovies();
   }, [debouncedSearchTerm]);
 
-  useEffect(() => {
-    console.log("Selected Movie");
-    console.log(selectedMovie);
-    console.log(watchlist);
-  }, [selectedMovie]);
+  useEffect(() => {}, [selectedMovie]);
 
   useEffect(() => {
     getWatchlist(token).then((watchlist) => {
@@ -106,7 +101,7 @@ function App() {
 
   const searchMovies = async () => {
     const res = await fetch("https://movai-2gkg.onrender.com/search-movies", {
-    // const res = await fetch("http://localhost:3001/search-movies", {
+      // const res = await fetch("http://localhost:3001/search-movies", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -122,7 +117,6 @@ function App() {
     }
     const data = await res.json();
     setMovies(data);
-    console.log(data);
   };
   const filteredAndSortedMovies = useMemo(() => {
     let filtered = movies.filter((movie) => {
@@ -177,7 +171,6 @@ function App() {
 
       if (!response.ok) throw new Error("Failed to update watchlist");
       const data = await response.json();
-      console.log("Wishlist synced:", data);
     } catch (err) {
       console.error("Error syncing watchlist:", err);
     }
@@ -189,7 +182,7 @@ function App() {
       return;
     }
     const res = await fetch("https://movai-2gkg.onrender.com/featured", {
-    // const res = await fetch("http://localhost:3001/featured", {
+      // const res = await fetch("http://localhost:3001/featured", {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`, // Send token in Authorization header
@@ -197,19 +190,18 @@ function App() {
     });
 
     const data = await res.json();
-    console.log(data);
+
     setFeaturedMovies(data.slice(0, 4));
     setAiRecommendedMovies(data.slice(4, 8));
   };
 
   const getTrendingMovies = async () => {
-    console.log("In trending");
     if (!token) {
       console.error("Token not found");
       return;
     }
     const res = await fetch("https://movai-2gkg.onrender.com/trending", {
-    // const res = await fetch("http://localhost:3001/trending", {
+      // const res = await fetch("http://localhost:3001/trending", {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`, // Send token in Authorization header
@@ -218,7 +210,6 @@ function App() {
 
     const data = await res.json();
     setMovies(data);
-    console.log(data);
   };
 
   return (

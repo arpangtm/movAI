@@ -38,13 +38,11 @@ const MessageComponent = ({ message }: { message: ResponseType }) => {
           })
         );
 
-        console.log(contentDetails);
         const details = await getMovieDetails(contentDetails);
 
         // Merge API data with recommendation data (genre and reason)
 
         const enrichedDetails = details.map((movie) => {
-          console.log(movie);
           const recommendation = message.content.recommendations.find(
             (rec: Recommendation) =>
               rec.title === movie.title ||
@@ -60,7 +58,7 @@ const MessageComponent = ({ message }: { message: ResponseType }) => {
             recommendationTitle: recommendation?.title,
           };
         });
-        console.log(enrichedDetails);
+
         setMovieDetails(enrichedDetails);
         setLoading(false);
       }
@@ -295,7 +293,6 @@ const getMovieDetails = async (titles: { title: string; year: number }[]) => {
 
     const data = await response.json();
     if (data.results && data.results.length > 0) {
-      console.log(data.results[0]);
       results.push(data.results[0]); // pick the best match
     }
   }

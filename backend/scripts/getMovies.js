@@ -4,7 +4,7 @@ let genreMap = {};
 
 const getMovieDetailsByTitleAndYear = async (recommendations) => {
   const results = [];
-  console.log("recommendation", recommendations);
+
   for (let i = 0; i < recommendations.length; i++) {
     const { name, releaseYear } = recommendations[i];
 
@@ -49,7 +49,6 @@ const getMovieDetailsByTitleAndYear = async (recommendations) => {
     const trailerKey = await getTrailer(movieId);
 
     const details = await detailsRes.json();
-    console.log("detailsRes", details);
 
     const creditsRes = await fetch(
       `https://api.themoviedb.org/3/movie/${movieId}/credits`,
@@ -112,11 +111,10 @@ const getTrendingMovies = async () => {
   if (Object.keys(genreMap).length === 0) {
     genreMap = await fetchGenreMap();
   }
-  console.log("genreMap", genreMap);
+
   data.results.forEach((m) => {
     m.genre = m.genre_ids.map((id) => genreMap[id]);
   });
-  console.log("trending", data.results);
 
   return data.results;
 };
@@ -177,11 +175,10 @@ const getTrailer = async (movieId) => {
   );
 
   const data = await res.json();
-  console.log("data", data);
+
   const trailer = data.results.find(
     (video) => video.site === "YouTube" && video.type === "Trailer"
   );
-  console.log("trailer", trailer?.key);
 
   return trailer?.key;
 };
