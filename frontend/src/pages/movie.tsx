@@ -44,7 +44,7 @@ const MovieDetailsPage = () => {
       setLoading(true);
 
       const response = await fetch(
-        `http://localhost:3001/movie/${movieId}/full`
+        `https://movai-2gkg.onrender.com/movie/${movieId}/full`
       );
       const data = await response.json();
       setMovie(data);

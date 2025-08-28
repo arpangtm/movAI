@@ -105,7 +105,7 @@ function App() {
   };
 
   const searchMovies = async () => {
-    const res = await fetch("http://localhost:3001/search-movies", {
+    const res = await fetch("https://movai-2gkg.onrender.com/search-movies", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -161,14 +161,17 @@ function App() {
 
     // Sync with backend
     try {
-      const response = await fetch("http://localhost:3001/watchlist", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`, // Make sure token is available
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ movieId, action }),
-      });
+      const response = await fetch(
+        "https://movai-2gkg.onrender.com/watchlist",
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`, // Make sure token is available
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ movieId, action }),
+        }
+      );
 
       if (!response.ok) throw new Error("Failed to update watchlist");
       const data = await response.json();
@@ -183,7 +186,7 @@ function App() {
       console.error("Token not found");
       return;
     }
-    const res = await fetch("http://localhost:3001/featured", {
+    const res = await fetch("https://movai-2gkg.onrender.com/featured", {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`, // Send token in Authorization header
@@ -202,7 +205,7 @@ function App() {
       console.error("Token not found");
       return;
     }
-    const res = await fetch("http://localhost:3001/trending", {
+    const res = await fetch("https://movai-2gkg.onrender.com/trending", {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`, // Send token in Authorization header
@@ -220,7 +223,7 @@ function App() {
   //     return;
   //   }
   //   try {
-  //     const response = await fetch("http://localhost:3001/watchlist", {
+  //     const response = await fetch("https://movai-2gkg.onrender.com/watchlist", {
   //       method: "POST",
   //       headers: {
   //         Authorization: `Bearer ${token}`,
@@ -243,7 +246,7 @@ function App() {
   //     return;
   //   }
   //   try {
-  //     const response = await fetch("http://localhost:3001/watchlist", {
+  //     const response = await fetch("https://movai-2gkg.onrender.com/watchlist", {
   //       method: "DELETE",
   //       headers: {
   //         Authorization: `Bearer ${token}`,
@@ -327,7 +330,7 @@ function App() {
                       <div className="flex items-center space-x-2">
                         <Star className="h-5 w-5 text-yellow-400 fill-current" />
                         <span className="text-yellow-400 font-semibold">
-                          {movie.rating}
+                          {parseFloat(`${movie.rating}`).toPrecision(2)}
                         </span>
                       </div>
                       <span>{movie.year}</span>
@@ -623,7 +626,9 @@ function App() {
                     <div className="flex items-center justify-between text-xs">
                       <div className="flex items-center space-x-2">
                         <Star className="h-3 w-3 text-yellow-400 fill-current" />
-                        <span className="text-yellow-400">{movie.rating}</span>
+                        <span className="text-yellow-400">
+                          {parseFloat(`${movie.rating}`).toPrecision(2)}
+                        </span>
                       </div>
                       <div className="flex items-center space-x-2 text-slate-300">
                         <Clock className="h-3 w-3" />

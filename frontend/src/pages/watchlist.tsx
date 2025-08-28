@@ -27,13 +27,16 @@ const WatchlistPage = () => {
   const fetchWatchlist = async () => {
     try {
       setLoading(true);
-      const response = await fetch("http://localhost:3001/watchlist-data", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await fetch(
+        "https://movai-2gkg.onrender.com/watchlist-data",
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
       if (!response.ok) {
         throw new Error("Failed to fetch watchlist");

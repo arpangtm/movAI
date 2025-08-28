@@ -185,7 +185,7 @@ const MovieOnboarding = () => {
   const handleSubmit = async () => {
     console.log("Form submitted:", formData);
     console.log("token", token);
-    fetch("http://localhost:3001/user-interests", {
+    fetch("https://movai-2gkg.onrender.com/user-interests", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

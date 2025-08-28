@@ -1,16 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
-import {
-  Send,
-  Bot,
-  User,
-
-  Sparkles,
-  Settings,
-
-  BarChart,
-} from "lucide-react";
+import { Send, Bot, User, Sparkles, Settings, BarChart } from "lucide-react";
 import MessageComponent from "../components/messageComponent";
-import {useAuth} from "@clerk/clerk-react";
+import { useAuth } from "@clerk/clerk-react";
 
 const Recommend = () => {
   const [messages, setMessages] = useState([
@@ -29,7 +20,7 @@ const Recommend = () => {
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
   const [token, setToken] = useState("");
-  const {getToken} = useAuth();
+  const { getToken } = useAuth();
 
   // Mock movie poster URLs for backdrop
   const moviePosters = [
@@ -49,19 +40,24 @@ const Recommend = () => {
     scrollToBottom();
   }, [messages]);
 
-  useEffect(()=>{
-    getToken().then((token)=>{
-      setToken(token);
-    }).catch((err)=>{
-      console.error("Error:", err);
-    })
-  },[getToken])
+  useEffect(() => {
+    getToken()
+      .then((token) => {
+        setToken(token);
+      })
+      .catch((err) => {
+        console.error("Error:", err);
+      });
+  }, [getToken]);
 
   const callLLM = async (userMessage: string) => {
     try {
-      const res = await fetch("http://localhost:3001/api/recommend", {
+      const res = await fetch("https://movai-2gkg.onrender.com/api/recommend", {
         method: "POST",
-        headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
         body: JSON.stringify({ userMessage }),
       });
 
