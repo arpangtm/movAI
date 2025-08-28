@@ -128,7 +128,7 @@ app.post("/user-interests", requireAuth(), async (req, res) => {
   const params = {
     TableName: "UserData",
     Item: marshall({
-      userId: userId,
+      ClerkID: userId,
       Interests: {
         ...body,
       },
