@@ -26,7 +26,7 @@ app.use(bodyParser.json());
 
 app.use(
   cors({
-    origin: "https://mov-ai.vercel.app/", // Vite dev server
+    origin: ["https://mov-ai.vercel.app", "http://localhost:5173"],
     credentials: true,
   })
 );

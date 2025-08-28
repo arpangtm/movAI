@@ -217,52 +217,7 @@ function App() {
     console.log(data);
   };
 
-  // const addToWishlist = async (movieId: string) => {
-  //   if (!token) {
-  //     console.error("Token not found");
-  //     return;
-  //   }
-  //   try {
-  //     const response = await fetch("https://movai-2gkg.onrender.com/watchlist", {
-  //       method: "POST",
-  //       headers: {
-  //         Authorization: `Bearer ${token}`,
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify({ movieId, action: "add" }),
-  //     });
-
-  //     if (!response.ok) throw new Error("Failed to add to watchlist");
-  //     const data = await response.json();
-  //     console.log("Wishlist updated:", data);
-  //   } catch (err) {
-  //     console.error("Error adding to watchlist:", err);
-  //   }
-  // };
-
-  // const removeFromWishlist = async (movieId: string) => {
-  //   if (!token) {
-  //     console.error("Token not found");
-  //     return;
-  //   }
-  //   try {
-  //     const response = await fetch("https://movai-2gkg.onrender.com/watchlist", {
-  //       method: "DELETE",
-  //       headers: {
-  //         Authorization: `Bearer ${token}`,
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify({ movieId, action: "remove" }),
-  //     });
-
-  //     if (!response.ok) throw new Error("Failed to remove from watchlist");
-  //     const data = await response.json();
-  //     console.log("Wishlist updated:", data);
-  //   } catch (err) {
-  //     console.error("Error removing from watchlist:", err);
-  //   }
-  // };
-
+  
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
       <Navbar />
