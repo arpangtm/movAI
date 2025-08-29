@@ -29,7 +29,11 @@ app.use(bodyParser.json());
 
 app.use(
   cors({
-    origin: ["https://mov-ai.vercel.app", "http://localhost:5173"],
+    origin: [
+      "https://mov-ai.vercel.app",
+      "http://localhost:5173",
+      "https://moviedb.arpangtm.com.np",
+    ],
     credentials: true,
   })
 );
