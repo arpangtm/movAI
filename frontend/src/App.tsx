@@ -196,10 +196,7 @@ function App() {
   };
 
   const getTrendingMovies = async () => {
-    if (!token) {
-      console.error("Token not found");
-      return;
-    }
+
     const res = await fetch("https://movai-2gkg.onrender.com/trending", {
       // const res = await fetch("http://localhost:3001/trending", {
       method: "GET",
@@ -209,7 +206,13 @@ function App() {
     });
 
     const data = await res.json();
-    setMovies(data);
+      if (!token) {
+          setFeaturedMovies(data.slice(0, 4));
+      return;
+    }
+    
+//Set remaining trending movies
+    setMovies(data.slice(4));
   };
 
   return (

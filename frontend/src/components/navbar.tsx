@@ -181,10 +181,11 @@ const SignButton = () => {
     <>
       <button className="text-white px-4 py-2 rounded-md flex items-center gap-2">
         <SignedOut>
-          <SignInButton signUpForceRedirectUrl={"/onboarding"} />
-          <RedirectToSignUp redirectUrl={"/onboarding"} />
-          <RedirectToSignIn redirectUrl={"/onboarding"} />
+          <SignInButton fallbackRedirectUrl="/onboarding" />
+          {/* <RedirectToSignUp redirectUrl={"/onboarding"} /> */}
+          {/* <RedirectToSignIn redirectUrl={"/onboarding"} /> */}
         </SignedOut>
+
         <SignedIn>
           <UserButton />
         </SignedIn>
