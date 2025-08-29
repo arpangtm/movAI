@@ -2,20 +2,18 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import App from "./App.tsx";
 import "./index.css";
-import { AuthProvider } from "react-oidc-context";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import Onboarding from "./pages/onboarding.tsx";
 import Recommend from "./pages/recommend.tsx";
 import Watchlist from "./pages/watchlist.tsx";
 import Movie from "./pages/movie.tsx";
 
-const host = import.meta.env.HOST;
 import "./index.css";
 
 import { ClerkProvider } from "@clerk/clerk-react";
 
 // Import your Publishable Key
-const PUBLISHABLE_KEY = "pk_live_Y2xlcmsuYXJwYW5ndG0uY29tLm5wJA";
+const PUBLISHABLE_KEY = "pk_test_aG9uZXN0LXdhc3AtOS5jbGVyay5hY2NvdW50cy5kZXYk";
 
 if (!PUBLISHABLE_KEY) {
   throw new Error("Missing Publishable Key");
