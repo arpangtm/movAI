@@ -285,8 +285,7 @@ const getMovieDetails = async (titles: { title: string; year: number }[]) => {
       )}&year=${title.year}`,
       {
         headers: {
-          Authorization:
-            "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJkZTllOGE2MjczMjEzMjkxNmZhMmEyMDAxNzk2OTE2MyIsIm5iZiI6MTc1NDI4MTQzOS4wMTgsInN1YiI6IjY4OTAzNWRmZmQ3NmIyZDM5OWIyMzNkOSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.2c4Ot2dJynPmdQ_Rbkf8cilUsoxhCysnDT4zrleDJhU",
+          Authorization: "Bearer " + import.meta.env.VITE_PUBLIC_TMDB_API_KEY,
         },
       }
     );

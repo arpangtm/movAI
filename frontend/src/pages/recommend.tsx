@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { Send, Bot, User, Sparkles, BarChart } from "lucide-react";
 import MessageComponent from "../components/messageComponent";
 import { useAuth } from "@clerk/clerk-react";
+import Navbar from "../components/navbar";
 
 const Recommend = () => {
   const [messages, setMessages] = useState([
@@ -70,6 +71,18 @@ const Recommend = () => {
 
   const handleSendMessage = async () => {
     if (!inputMessage.trim()) return;
+    if (!token) {
+      setMessages([
+        {
+          id: 1,
+          type: "bot",
+          content:
+            "You need to sign in to use the movie recommendation feature. Please sign in to continue.",
+          timestamp: new Date(),
+        },
+      ]);
+      return;
+    }
 
     const userMessage = {
       id: Date.now(),
@@ -177,26 +190,15 @@ const Recommend = () => {
       {/* Main Chat Interface */}
       <div className="relative z-10 min-h-screen flex flex-col">
         {/* Header */}
-        <div className="bg-gray-900/90 backdrop-blur-sm border-b border-gray-800 p-4">
-          <div className="max-w-4xl mx-auto flex items-center justify-between">
-            <div className="flex items-center space-x-3">
-              <div className="bg-red-500/20 p-2 rounded-full">
-                <BarChart className="w-6 h-6 text-red-400" />
-              </div>
-              <div>
-                <h1 className="text-xl font-bold text-white">MovAI</h1>
-                <p className="text-sm text-gray-400">
-                  Your Personal Movie Recommendation Agent
-                </p>
-              </div>
-            </div>
-          </div>
+        <div className="sticky top-0 z-50">
+          <Navbar />
         </div>
+        
 
         {/* Settings Panel */}
 
         {/* Chat Messages */}
-        <div className="flex-1 overflow-y-auto p-4">
+        <div className="flex-1 overflow-y-auto p-4 mt-16">
           <div className="max-w-4xl mx-auto space-y-4">
             {messages.map((message) => (
               <div
@@ -280,7 +282,7 @@ const Recommend = () => {
         )}
 
         {/* Input Area */}
-        <div className=" backdrop-blur-sm border-t border-gray-800 p-4">
+        <div className="fixed bottom-0  w-full p-4">
           <div className="max-w-4xl mx-auto">
             <div className="flex space-x-3">
               <div className="flex-1 relative">
@@ -290,7 +292,7 @@ const Recommend = () => {
                   onChange={(e) => setInputMessage(e.target.value)}
                   onKeyPress={handleKeyPress}
                   placeholder="Ask for movie recommendations... (e.g., 'I want something like Inception' or 'Best comedies from 2023')"
-                  className="w-full p-4 pr-12 bg-gray-800/50 border border-gray-700 rounded-2xl text-white placeholder-gray-500 focus:border-red-500 focus:outline-none resize-none min-h-[60px] max-h-32"
+                  className="w-full p-4 pr-12 bg-black border border-gray-700 rounded-2xl text-white placeholder-gray-500 focus:border-red-500 focus:outline-none resize-none min-h-[60px] max-h-32"
                   rows="1"
                 />
                 <button

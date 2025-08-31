@@ -177,7 +177,7 @@ app.get("/featured", requireAuth(), async (req, res) => {
   }
 });
 
-app.get("/trending", requireAuth(), async (req, res) => {
+app.get("/trending", async (req, res) => {
   const movies = await getTrendingMovies();
   res.status(200).json(movies);
 });

@@ -62,6 +62,9 @@ const MovieDetailsPage = () => {
   };
 
   const toggleWatchlist = () => {
+    if (!token) {
+      return;
+    }
     updateWatchlist(
       token as string,
       Number(movieId),

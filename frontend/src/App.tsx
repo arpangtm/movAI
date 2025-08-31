@@ -18,6 +18,8 @@ import { useDebounce } from "./hooks/useDebounce";
 import { getWatchlist } from "./scripts/watchlist";
 import { featuredMovie, Movie } from "../types/responseTypes";
 import { useNavigate } from "react-router-dom";
+import MovieSignInPopup from "./components/signin-popup";
+import MovieFeatureBanner from "./components/ai-recommendation";
 
 const GENRES = [
   "All",
@@ -63,6 +65,7 @@ function App() {
     getToken().then((token) => {
       setToken(token);
     });
+    getTrendingMovies();
   }, []);
 
   useEffect(() => {
@@ -79,12 +82,18 @@ function App() {
   }, [featuredMovies.length]);
 
   useEffect(() => {
+    if (!debouncedSearchTerm) {
+      return;
+    }
     searchMovies();
   }, [debouncedSearchTerm]);
 
   useEffect(() => {}, [selectedMovie]);
 
   useEffect(() => {
+    if (!token) {
+      return;
+    }
     getWatchlist(token).then((watchlist) => {
       setWatchlist(watchlist || []);
     });
@@ -196,9 +205,8 @@ function App() {
   };
 
   const getTrendingMovies = async () => {
-
     const res = await fetch("https://movai-2gkg.onrender.com/trending", {
-      // const res = await fetch("http://localhost:3001/trending", {
+    // const res = await fetch("http://localhost:3001/trending", {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`, // Send token in Authorization header
@@ -206,18 +214,21 @@ function App() {
     });
 
     const data = await res.json();
-      if (!token) {
-          setFeaturedMovies(data.slice(0, 4));
+    console.log(data);
+    if (!token) {
+      setFeaturedMovies(data.slice(0, 4));
+      setMovies(data.slice(4));
       return;
     }
-    
-//Set remaining trending movies
-    setMovies(data.slice(4));
+
+    //Set remaining trending movies
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+    <div className="min-h-screen bg-gradient-to-br bg-black">
       <Navbar />
+
+      {!token && <MovieSignInPopup />}
 
       {/* Hero Carousel Section */}
       <section className="relative h-[70vh] overflow-hidden">
@@ -234,7 +245,10 @@ function App() {
               {/* Background Image */}
               <div className="absolute inset-0">
                 <img
-                  src={movie.poster}
+                  src={
+                    movie.poster ||
+                    `https://image.tmdb.org/t/p/w500${movie.backdrop_path}`
+                  }
                   alt={movie.title}
                   className="w-full h-full object-cover"
                 />
@@ -389,6 +403,7 @@ function App() {
               AI Recommendations for You
             </h3>
           </div>
+          {!token && <MovieFeatureBanner />}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {aiRecommendedMovies.map((movie) => (
               <div

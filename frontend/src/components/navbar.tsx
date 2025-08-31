@@ -12,15 +12,26 @@ import {
 } from "@clerk/clerk-react";
 
 import { useState } from "react";
+import { useAuth } from "@clerk/clerk-react";
+import { useEffect } from "react";
 
 const Navbar = () => {
   const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [token, setToken] = useState<string | null>("");
+
+  const { getToken } = useAuth();
+
+  useEffect(() => {
+    getToken().then((token) => {
+      setToken(token);
+    });
+  }, []);
 
   return (
     <div>
-      <header className="sticky top-0 z-40 bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 backdrop-blur-xl border-b border-slate-700/50 py-4 shadow-lg shadow-slate-900/20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <header className="absolute w-full top-0 z-40 bg-gradient-to-r bg-transparent backdrop-blur-sm  py-2 shadow-lg shadow-slate-900/20">
+        <div className="mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center space-x-4">
               <div className="flex items-center space-x-2">
@@ -59,7 +70,7 @@ const Navbar = () => {
               </a>
               <button
                 onClick={() => navigate("/recommend")}
-                className="bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-full font-semibold flex items-center gap-2 shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl animate-pulse relative overflow-hidden"
+                className="bg-red-500 hover:bg-red-600 text-white px-2 py-2 rounded-full font-semibold flex items-center gap-2 shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl animate-pulse relative overflow-hidden"
                 style={{
                   background: "linear-gradient(45deg, #ef4444, #dc2626)",
                   border: "3px solid transparent",
@@ -69,26 +80,34 @@ const Navbar = () => {
                 <div
                   className="absolute inset-0 rounded-full opacity-80"
                   style={{
+                    borderRadius: 12,
+                    padding: 0,
                     background:
                       "linear-gradient(90deg, #fbbf24, #10b981, #3b82f6, #ef4444, #fbbf24)",
-                    backgroundSize: "400% 100%",
+                    backgroundSize: "200% 100%",
                     animation: "snake-border 5s linear infinite",
                     zIndex: -1,
-                    margin: "-3px",
                   }}
                 />
-                <Sparkles
-                  className="text-yellow-400 drop-shadow-lg relative z-10"
+                <div
+                  className="bg-black flex px-3 py-2"
                   style={{
-                    filter:
-                      "drop-shadow(0 0 4px #fbbf24) drop-shadow(0 0 8px #f59e0b)",
-                    color: "#fbbf24",
+                    borderRadius: 24,
                   }}
-                  size={20}
-                />
-                <span className="tracking-wide relative z-10">
-                  AI Recommendation
-                </span>
+                >
+                  <Sparkles
+                    className="text-yellow-400 drop-shadow-lg relative z-10"
+                    style={{
+                      filter:
+                        "drop-shadow(0 0 4px #fbbf24) drop-shadow(0 0 8px #f59e0b)",
+                      color: "#fbbf24",
+                    }}
+                    size={20}
+                  />
+                  <span className="tracking-wide relative z-10 ">
+                    AI Recommendation
+                  </span>
+                </div>
 
                 <style jsx>{`
                   @keyframes snake-border {
@@ -96,7 +115,7 @@ const Navbar = () => {
                       background-position: 0% 50%;
                     }
                     100% {
-                      background-position: 400% 50%;
+                      background-position: 100% 50%;
                     }
                   }
                 `}</style>
