@@ -9,7 +9,11 @@ on:
       - main
 
 jobs:
-  build-and-deploy:
+  frontend:
+    name: Frontend CI/CD
+    defaults:
+      run:
+        working-directory: ./frontend
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -28,11 +32,11 @@ jobs:
 
       - name: Build
         run: npm run build
-      
-      # - name: Deploy to Vercel
-      #   uses: amondnet/vercel-action@v23
-      #   with:
-      #     vercel-token: ${{ secrets.VERCEL_TOKEN }}
-      #     vercel-args: '--prod'
-      #     working-directory: .
+        
+        # - name: Deploy to Vercel
+        #   uses: amondnet/vercel-action@v23
+        #   with:
+        #     vercel-token: ${{ secrets.VERCEL_TOKEN }}
+        #     vercel-args: '--prod'
+        #     working-directory: .
 
