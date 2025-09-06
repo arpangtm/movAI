@@ -237,7 +237,7 @@ app.post("/watchlist", requireAuth(), async (req, res) => {
         ReturnValues: "UPDATED_NEW",
       };
     } catch (err) {
-      console.error("Error reading watchlist:", err);
+
       return res.status(500).send("Failed to read watchlist");
     }
   } else {

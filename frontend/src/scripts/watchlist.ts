@@ -1,4 +1,8 @@
 const getWatchlist = async (token: string | null) => {
+  if (!token) {
+    console.error("Token not found");
+    return;
+  }
   try {
     const response = await fetch("https://movai-2gkg.onrender.com/watchlist", {
       // const response = await fetch("http://localhost:3001/watchlist", {
@@ -9,11 +13,11 @@ const getWatchlist = async (token: string | null) => {
       },
     });
 
-    if (!response.ok) throw new Error("Failed to fetch watchlist");
+    if (!response.ok) throw new Error();
     const data = await response.json();
     return data.watchlist;
   } catch (err) {
-    console.error("Error loading watchlist:", err);
+    console.error("Error loading watchlist");
   }
 };
 
@@ -41,8 +45,9 @@ const updateWatchlist = async (
 
     if (!response.ok) throw new Error("Failed to update watchlist");
     const data = await response.json();
+    return { success: true };
   } catch (err) {
-    console.error("Error syncing watchlist:", err);
+    console.error("Error syncing watchlist");
   }
 };
 
