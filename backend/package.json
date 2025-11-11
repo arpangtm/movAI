@@ -12,5 +12,10 @@
     "openai": "^5.16.0",
     "svix": "^1.75.0",
     "uuid": "^11.1.0"
+  },
+  "scripts": {
+    "start": "node webhook.js",
+    "build": "next build",
+    "dev": "next dev"
   }
 }
