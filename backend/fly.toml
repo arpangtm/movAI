@@ -1,4 +1,4 @@
-# fly.toml app configuration file generated for movai-6vxslw on 2025-11-10T19:36:07Z
+# fly.toml app configuration file generated for movai-6vxslw on 2025-11-11T01:19:12Z
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
@@ -7,9 +7,6 @@ app = 'movai-6vxslw'
 primary_region = 'iad'
 
 [build]
-
-[env]
-  PORT = '8080'
 
 [http_service]
   internal_port = 8080
