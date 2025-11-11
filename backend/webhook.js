@@ -1,29 +1,41 @@
-require("dotenv").config();
-const express = require("express");
-const bodyParser = require("body-parser");
-const { Webhook } = require("svix");
-const {
+// Load environment variables
+import dotenv from "dotenv";
+dotenv.config();
+
+// Core dependencies
+import express from "express";
+import bodyParser from "body-parser";
+import cors from "cors";
+
+// Svix Webhook
+import { Webhook } from "svix";
+
+// AWS SDK
+import {
   DynamoDBClient,
   PutItemCommand,
   ScanCommand,
-} = require("@aws-sdk/client-dynamodb");
-const {
+} from "@aws-sdk/client-dynamodb";
+import {
   GetCommand,
   UpdateCommand,
   QueryCommand,
-} = require("@aws-sdk/lib-dynamodb");
-const { marshall } = require("@aws-sdk/util-dynamodb");
-const { requireAuth, getAuth, clerkClient } = require("@clerk/express");
-const { clerkMiddleware } = require("@clerk/express");
-const cors = require("cors");
-const {
-  getMovieDetailsByTitleAndYear,
-  getTrendingMovies,
-  searchMoviesByTitle,
-  getTrailer,
-} = require("./scripts/getMovies.js");
-const { getOpenRouterResponse } = require("./scripts/LLM.js");
+} from "@aws-sdk/lib-dynamodb";
+import { marshall } from "@aws-sdk/util-dynamodb";
 
+// Clerk authentication
+import { requireAuth, getAuth, clerkClient, clerkMiddleware } from "@clerk/express";
+
+// Local scripts
+import { 
+  getMovieDetailsByTitleAndYear, 
+  getTrendingMovies, 
+  searchMoviesByTitle, 
+  getTrailer 
+} from "./scripts/getMovies.js";
+import { getOpenRouterResponse } from "./scripts/LLM.js";
+
+// Initialize Express app
 const app = express();
 app.use(bodyParser.json());
 
@@ -37,6 +49,7 @@ app.use(
     credentials: true,
   })
 );
+
 app.use(clerkMiddleware());
 
 const dynamoDB = new DynamoDBClient({

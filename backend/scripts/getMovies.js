@@ -1,8 +1,10 @@
+import dotenv from "dotenv";
+dotenv.config();
 const TMDB_TOKEN = process.env.TMDB_API_KEY;
 
 let genreMap = {};
 
-const getMovieDetailsByTitleAndYear = async (recommendations) => {
+export const getMovieDetailsByTitleAndYear = async (recommendations) => {
   const results = [];
 
   for (let i = 0; i < recommendations.length; i++) {
@@ -96,7 +98,7 @@ const getMovieDetailsByTitleAndYear = async (recommendations) => {
   return results;
 };
 
-const getTrendingMovies = async () => {
+export const getTrendingMovies = async () => {
   const response = await fetch(
     "https://api.themoviedb.org/3/trending/movie/day?language=en-US",
     {
@@ -131,6 +133,8 @@ const fetchGenreMap = async () => {
       },
     }
   );
+  console.log(res);
+  console.log(TMDB_TOKEN)
 
   const data = await res.json();
   data.genres.forEach((g) => {
@@ -140,7 +144,7 @@ const fetchGenreMap = async () => {
   return genreMap;
 };
 
-const searchMoviesByTitle = async (title) => {
+export const searchMoviesByTitle = async (title) => {
   const response = await fetch(
     `https://api.themoviedb.org/3/search/movie?query=${title}`,
     {
@@ -163,7 +167,7 @@ const searchMoviesByTitle = async (title) => {
   return top5;
 };
 
-const getTrailer = async (movieId) => {
+export const getTrailer = async (movieId) => {
   const res = await fetch(
     `https://api.themoviedb.org/3/movie/${movieId}/videos?language=en-US`,
     {
@@ -183,9 +187,9 @@ const getTrailer = async (movieId) => {
   return trailer?.key;
 };
 
-module.exports = {
-  getMovieDetailsByTitleAndYear,
-  getTrendingMovies,
-  searchMoviesByTitle,
-  getTrailer,
-};
+// module.exports = {
+//   getMovieDetailsByTitleAndYear,
+//   getTrendingMovies,
+//   searchMoviesByTitle,
+//   getTrailer,
+// };

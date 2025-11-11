@@ -17,5 +17,6 @@
     "start": "node webhook.js",
     "build": "next build",
     "dev": "next dev"
-  }
+  },
+  "type": "module"
 }
