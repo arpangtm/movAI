@@ -4,7 +4,7 @@ const getWatchlist = async (token: string | null) => {
     return;
   }
   try {
-    const response = await fetch("https://movai-2gkg.onrender.com/watchlist", {
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/watchlist`, {
       // const response = await fetch("http://localhost:3001/watchlist", {
       method: "GET",
       headers: {
@@ -33,7 +33,7 @@ const updateWatchlist = async (
 
   // Sync with backend
   try {
-    const response = await fetch("https://movai-2gkg.onrender.com/watchlist", {
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/watchlist`, {
       // const response = await fetch("http://localhost:3001/watchlist", {
       method: "POST",
       headers: {

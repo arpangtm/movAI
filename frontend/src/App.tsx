@@ -109,17 +109,20 @@ function App() {
   };
 
   const searchMovies = async () => {
-    const res = await fetch("https://movai-2gkg.onrender.com/search-movies", {
-      // const res = await fetch("http://localhost:3001/search-movies", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`, // Send token in Authorization header
-      },
-      body: JSON.stringify({
-        searchTerm: debouncedSearchTerm,
-      }),
-    });
+    const res = await fetch(
+      `${import.meta.env.VITE_BACKEND_URL}/search-movies`,
+      {
+        // const res = await fetch("http://localhost:3001/search-movies", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`, // Send token in Authorization header
+        },
+        body: JSON.stringify({
+          searchTerm: debouncedSearchTerm,
+        }),
+      }
+    );
     if (!res.ok) {
       console.error("Failed to fetch movies");
       return;
@@ -167,7 +170,7 @@ function App() {
     try {
       const response = await fetch(
         // "http://localhost:3001/watchlist",
-        "https://movai-2gkg.onrender.com/watchlist",
+        `${import.meta.env.VITE_BACKEND_URL}/watchlist`,
         {
           method: "POST",
           headers: {
@@ -190,7 +193,7 @@ function App() {
       console.error("Token not found");
       return;
     }
-    const res = await fetch("https://movai-2gkg.onrender.com/featured", {
+    const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/featured`, {
       // const res = await fetch("http://localhost:3001/featured", {
       method: "GET",
       headers: {
@@ -205,8 +208,8 @@ function App() {
   };
 
   const getTrendingMovies = async () => {
-    const res = await fetch("https://movai-2gkg.onrender.com/trending", {
-    // const res = await fetch("http://localhost:3001/trending", {
+    const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/trending`, {
+      // const res = await fetch("http://localhost:3001/trending", {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`, // Send token in Authorization header

@@ -52,7 +52,7 @@ const Recommend = () => {
 
   const callLLM = async (userMessage: string) => {
     try {
-      const res = await fetch("https://movai-2gkg.onrender.com/api/recommend", {
+      const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/recommend`, {
         // const res = await fetch("http://localhost:3001/api/recommend", {
         method: "POST",
         headers: {

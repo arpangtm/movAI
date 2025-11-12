@@ -27,7 +27,7 @@ const WatchlistPage = () => {
     try {
       setLoading(true);
       const response = await fetch(
-        "https://movai-2gkg.onrender.com/watchlist-data",
+        `${import.meta.env.VITE_BACKEND_URL}/watchlist-data`,
         // "http://localhost:3001/watchlist-data",
         {
           method: "GET",

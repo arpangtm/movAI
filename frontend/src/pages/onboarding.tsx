@@ -185,7 +185,7 @@ const MovieOnboarding = () => {
   const handleSubmit = async () => {
 
 
-    fetch("https://movai-2gkg.onrender.com/user-interests", {
+    fetch(`${import.meta.env.VITE_BACKEND_URL}/user-interests`, {
     // fetch("http://localhost:3001/user-interests", {
       method: "POST",
       headers: {

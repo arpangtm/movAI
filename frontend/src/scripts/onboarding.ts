@@ -4,7 +4,7 @@ const checkOnboarding = async (
   token: string
 ): Promise<OnboardingCheckResult> => {
   try {
-    const response = await fetch("https://movai-2gkg.onrender.com/onboarding", {
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/onboarding`, {
     // const response = await fetch("http://localhost:3001/onboarding", {
       method: "POST",
       headers: {
