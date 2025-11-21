@@ -1,12 +1,10 @@
-import { LogIn, LogOut, Play, Sparkles } from "lucide-react";
+import { Sparkles, Menu, X } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { RedirectToSignUp, RedirectToSignIn } from "@clerk/clerk-react";
 import logo from "../../public/logos/logo.png";
 
 import {
   SignedIn,
   SignedOut,
-  SignIn,
   SignInButton,
   UserButton,
 } from "@clerk/clerk-react";
@@ -18,108 +16,87 @@ import { useEffect } from "react";
 const Navbar = () => {
   const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
-  const [token, setToken] = useState<string | null>("");
+  const [scrolled, setScrolled] = useState(false);
 
   const { getToken } = useAuth();
 
   useEffect(() => {
-    getToken().then((token) => {
-      setToken(token);
+    getToken().then(() => {
+      // Token logic if needed
     });
+
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   return (
     <div>
-      <header className="absolute w-full top-0 z-40 bg-gradient-to-r bg-transparent backdrop-blur-sm  py-2 shadow-lg shadow-slate-900/20">
+      <header
+        className={`fixed w-full top-0 z-40 transition-all duration-300 ${
+          scrolled
+            ? "bg-black/80 backdrop-blur-md border-b border-white/5 shadow-lg"
+            : "bg-gradient-to-b from-black/80 to-transparent"
+        }`}
+      >
         <div className="mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
+          <div className="flex items-center justify-between h-20">
+            {/* Logo Area */}
             <div className="flex items-center space-x-4">
-              <div className="flex items-center space-x-2">
+              <div 
+                className="flex items-center space-x-3 cursor-pointer group" 
+                onClick={() => navigate("/")}
+              >
                 <img
                   src={logo}
                   alt="logo"
-                  width={70}
-                  height={70}
-                  className="rounded-full"
+                  width={50}
+                  height={50}
+                  className="rounded-full ring-2 ring-red-600/20 group-hover:ring-red-600/50 transition-all duration-300"
                 />
-                <h1 className="text-3xl font-bold bg-gradient-to-r text-red-500 bg-clip-text">
-                  MovieDB
+                <h1 className="text-2xl font-bold text-white tracking-tight">
+                  Movie<span className="text-red-600">DB</span>
                 </h1>
               </div>
             </div>
 
             {/* Desktop Nav */}
             <nav className="hidden md:flex items-center space-x-8">
-              <a
-                href="#"
-                className="text-slate-300 hover:text-white transition-colors text-lg font-medium hover:scale-105 transform duration-200"
-              >
-                Home
-              </a>
-              <a
-                href="#"
-                className="text-slate-300 hover:text-white transition-colors text-lg font-medium hover:scale-105 transform duration-200"
-              >
-                Movies
-              </a>
-              <a
-                href="/watchlist"
-                className="text-slate-300 hover:text-white transition-colors text-lg font-medium hover:scale-105 transform duration-200"
-              >
-                Watchlist
-              </a>
+              <div className="flex items-center space-x-6 mr-4">
+                <a
+                  href="#"
+                  className="text-zinc-300 hover:text-white transition-colors text-sm font-medium hover:scale-105 transform duration-200"
+                >
+                  Home
+                </a>
+                <a
+                  href="#"
+                  className="text-zinc-300 hover:text-white transition-colors text-sm font-medium hover:scale-105 transform duration-200"
+                >
+                  Movies
+                </a>
+                <a
+                  href="/watchlist"
+                  className="text-zinc-300 hover:text-white transition-colors text-sm font-medium hover:scale-105 transform duration-200"
+                >
+                  Watchlist
+                </a>
+              </div>
+
               <button
                 onClick={() => navigate("/recommend")}
-                className="bg-red-500 hover:bg-red-600 text-white px-2 py-2 rounded-full font-semibold flex items-center gap-2 shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl animate-pulse relative overflow-hidden"
-                style={{
-                  background: "linear-gradient(45deg, #ef4444, #dc2626)",
-                  border: "3px solid transparent",
-                  backgroundClip: "padding-box",
-                }}
+                className="group relative inline-flex items-center justify-center px-6 py-2 font-semibold text-white transition-all duration-200 bg-red-600 font-pj rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-600"
               >
-                <div
-                  className="absolute inset-0 rounded-full opacity-80"
-                  style={{
-                    borderRadius: 12,
-                    padding: 0,
-                    background:
-                      "linear-gradient(90deg, #fbbf24, #10b981, #3b82f6, #ef4444, #fbbf24)",
-                    backgroundSize: "200% 100%",
-                    animation: "snake-border 5s linear infinite",
-                    zIndex: -1,
-                  }}
-                />
-                <div
-                  className="bg-black flex px-3 py-2"
-                  style={{
-                    borderRadius: 24,
-                  }}
-                >
-                  <Sparkles
-                    className="text-yellow-400 drop-shadow-lg relative z-10"
-                    style={{
-                      filter:
-                        "drop-shadow(0 0 4px #fbbf24) drop-shadow(0 0 8px #f59e0b)",
-                      color: "#fbbf24",
-                    }}
-                    size={20}
-                  />
-                  <span className="tracking-wide relative z-10 ">
-                    AI Recommendation
-                  </span>
-                </div>
-
-                <style jsx>{`
-                  @keyframes snake-border {
-                    0% {
-                      background-position: 0% 50%;
-                    }
-                    100% {
-                      background-position: 100% 50%;
-                    }
-                  }
-                `}</style>
+                <div className="absolute -inset-3 transition-all duration-200 rounded-full opacity-30 group-hover:opacity-100 blur-lg bg-red-600"></div>
+                <span className="relative flex items-center gap-2">
+                  <Sparkles size={16} className="text-yellow-300" />
+                  AI Pick
+                </span>
               </button>
+              
               <SignButton />
             </nav>
 
@@ -127,49 +104,32 @@ const Navbar = () => {
             <div className="md:hidden flex items-center gap-4">
               <SignButton />
               <button
-                className="text-white focus:outline-none"
+                className="text-white focus:outline-none p-2 hover:bg-white/10 rounded-full transition-colors"
                 onClick={() => setMenuOpen(!menuOpen)}
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-6 w-6"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d={
-                      menuOpen
-                        ? "M6 18L18 6M6 6l12 12" // X icon
-                        : "M4 6h16M4 12h16M4 18h16" // Hamburger icon
-                    }
-                  />
-                </svg>
+                {menuOpen ? <X size={24} /> : <Menu size={24} />}
               </button>
             </div>
           </div>
 
           {/* Mobile Menu */}
           {menuOpen && (
-            <div className="md:hidden mt-4 space-y-4">
+            <div className="md:hidden absolute top-20 left-0 w-full bg-zinc-900/95 backdrop-blur-xl border-b border-white/10 p-4 space-y-4 shadow-2xl animate-in slide-in-from-top-5">
               <a
                 href="#"
-                className="block text-slate-300 hover:text-white text-lg font-medium"
+                className="block text-zinc-300 hover:text-white text-lg font-medium px-4 py-2 hover:bg-white/5 rounded-lg"
               >
                 Home
               </a>
               <a
                 href="#"
-                className="block text-slate-300 hover:text-white text-lg font-medium"
+                className="block text-zinc-300 hover:text-white text-lg font-medium px-4 py-2 hover:bg-white/5 rounded-lg"
               >
                 Movies
               </a>
               <a
                 href="/watchlist"
-                className="block text-slate-300 hover:text-white text-lg font-medium"
+                className="block text-zinc-300 hover:text-white text-lg font-medium px-4 py-2 hover:bg-white/5 rounded-lg"
               >
                 Watchlist
               </a>
@@ -178,15 +138,14 @@ const Navbar = () => {
                   navigate("/recommend");
                   setMenuOpen(false);
                 }}
-                className="w-full bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-full font-semibold flex items-center justify-center gap-2 shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl"
+                className="w-full bg-gradient-to-r from-red-600 to-red-700 text-white px-6 py-3 rounded-xl font-semibold flex items-center justify-center gap-2 shadow-lg"
               >
                 <Sparkles
-                  className="text-yellow-300 drop-shadow-md"
+                  className="text-yellow-300"
                   size={20}
                 />
                 <span className="tracking-wide">AI Recommendation</span>
               </button>
-              {/* <SignButton /> */}
             </div>
           )}
         </div>
@@ -197,19 +156,25 @@ const Navbar = () => {
 
 const SignButton = () => {
   return (
-    <>
-      <button className="text-white px-4 py-2 rounded-md flex items-center gap-2">
-        <SignedOut>
-          <SignInButton />
-          {/* <RedirectToSignUp redirectUrl={"/onboarding"} /> */}
-          {/* <RedirectToSignIn redirectUrl={"/onboarding"} /> */}
-        </SignedOut>
+    <div className="flex items-center">
+      <SignedOut>
+        <SignInButton mode="modal">
+          <button className="text-zinc-300 hover:text-white font-medium text-sm px-4 py-2 transition-colors">
+            Sign In
+          </button>
+        </SignInButton>
+      </SignedOut>
 
-        <SignedIn>
-          <UserButton />
-        </SignedIn>
-      </button>
-    </>
+      <SignedIn>
+        <UserButton 
+          appearance={{
+            elements: {
+              avatarBox: "w-9 h-9 ring-2 ring-white/20 hover:ring-white/50 transition-all"
+            }
+          }}
+        />
+      </SignedIn>
+    </div>
   );
 };
 
